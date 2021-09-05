@@ -1,0 +1,45 @@
+<template>
+	<div class="profile-header d-flex mx-5 mt-5 pb-4 border-bottom">
+		<div class="profile-image px-5">
+			<img :src="_GetUser.image" class="rounded-circle" style="width:150px; height: 150px;">
+		</div>
+		<div class="profile-desc px-5 d-flex flex-column">
+			<div class="profile-desc-header d-flex align-items-center">
+				<span class="username">{{_GetUser.username}}</span>
+				<button v-if="!_GetUser.isFollowing" class="btn btn-primary btn-sm" @click="follow({followId:_GetUser.id,followerId:this._User.id})">Follow</button>
+				<button v-else class="btn btn-primary btn-sm" @click="unFollow({followId:_GetUser.id,followerId:this._User.id})">Unfollow</button>
+			</div>
+			<div class="profile-desc-follow d-flex justify-content-between my-3">
+				<span><strong>0</strong> Posts</span>
+				<span class="mx-2"><strong>0</strong> Followers</span>
+				<span><strong>0</strong> Following</span>
+			</div>
+			<div class="profile-desc-fullname">
+				<strong>
+					{{_GetUser.fullname}}
+				</strong>
+			</div>
+			<div class="profile-desc-bio">
+				<p v-html="_GetUser.bio"></p>
+			</div>
+		</div>
+	</div>
+</template>
+<script>
+	import { mapActions,mapGetters } from 'vuex'
+	export default {
+		computed:{
+			...mapGetters(['_User','_GetUser'])
+		},
+		methods:{
+			...mapActions(['follow','unFollow'])
+		},
+	}
+</script>
+<style scoped>
+	.username{
+		font-size: 25px;
+		font-weight: lighter;
+		margin-right: 20px;
+	}
+</style>

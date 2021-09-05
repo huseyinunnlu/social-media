@@ -18,7 +18,7 @@ class LoginController extends Controller
             'password'=>'required'
         ]);
         $loginUser = User::where('email',$request->email)->where('password',$request->password)->first();
-        if ($loginUser->email == $request->email && $loginUser->password == $request->password) {
+        if ($loginUser && $loginUser->email == $request->email && $loginUser->password == $request->password) {
             $user = Auth::loginUsingId($loginUser->id);
             $success['token'] = 'Bearer '.$user->createToken('Login')->accessToken;
             return response()->json([

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\ProfileSettingsController;
+use App\Http\Controllers\User\ProfileController;
 
 /*
 |--------------------------------------------------------------------------
@@ -29,3 +30,6 @@ Route::post('/sendmailcode', [ProfileSettingsController::class, 'sendVerifyMailC
 Route::post('/verifyemail', [ProfileSettingsController::class, 'verifyEmail'])->middleware('auth:api');
 Route::post('/account/edit/updateimage', [ProfileSettingsController::class, 'updateImage'])->middleware('auth:api');
 Route::post('/account/password/change', [ProfileSettingsController::class, 'updatePassword'])->middleware('auth:api');
+Route::get('/user/{username}', [ProfileController::class, 'get']);
+Route::post('/follow', [ProfileController::class, 'follow'])->middleware('auth:api');
+Route::post('/unfollow', [ProfileController::class, 'unFollow'])->middleware('auth:api');

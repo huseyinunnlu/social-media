@@ -2,6 +2,11 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
 {
+	path:'/404',
+	name:'404',
+	component: () => import( '../views/404.vue' )
+},
+{
 	path: '/index',
 	name: 'Index',
 	component: () => import( '../views/Index.vue')
@@ -21,7 +26,7 @@ const routes = [
 
 /*Profile Routes*/
 {
-	path: '/:username',
+	path: '/myprofile',
 	name: 'MyProfile',
 	component: () => import( '../views/User/MyProfile.vue')
 },
@@ -40,6 +45,13 @@ const routes = [
 	name: 'VerifyEmail',
 	component: () => import( '../components/User/verifyemail.vue')
 },
+/*Profile*/
+{
+	path: '/u/:username',
+	name: 'Profile',
+	component: () => import( '../views/User/Profile.vue')
+},
+
 
 
 ]
