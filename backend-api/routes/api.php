@@ -31,7 +31,8 @@ Route::post('/sendmailcode', [ProfileSettingsController::class, 'sendVerifyMailC
 Route::post('/verifyemail', [ProfileSettingsController::class, 'verifyEmail'])->middleware('auth:api');
 Route::post('/account/edit/updateimage', [ProfileSettingsController::class, 'updateImage'])->middleware('auth:api');
 Route::post('/account/password/change', [ProfileSettingsController::class, 'updatePassword'])->middleware('auth:api');
-Route::get('/user/{username}', [ProfileController::class, 'get']);
+Route::get('/user/{username}', [ProfileController::class, 'get'])->middleware('auth:api');
 Route::post('/follow', [ProfileController::class, 'follow'])->middleware('auth:api');
 Route::post('/unfollow', [ProfileController::class, 'unFollow'])->middleware('auth:api');
 Route::post('/removefollower', [ProfileController::class, 'removeFollower'])->middleware('auth:api');
+Route::get('/getfollowers', [ProfileController::class, 'getFollowers']);

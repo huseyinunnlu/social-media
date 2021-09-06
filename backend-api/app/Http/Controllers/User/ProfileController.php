@@ -12,7 +12,7 @@ class ProfileController extends Controller
 {
     public function get($username)
     {
-        $user = User::where('username',$username)->with('followers.user','following')->withCount('followers','following')->first();
+        $user = User::where('username',$username)->withCount('followers','following')->first();
 
         if($user) {
             return response()->json($user);
@@ -21,6 +21,12 @@ class ProfileController extends Controller
                 'message'=>'User not found.'
             ],404);
         }
+    }
+
+    public function getfollowers(Request $request)
+    {
+        $followers = Follow::where('follow_id',$request->user)->with('user')->limit($request->count)->get();
+        return response()->json($followers);
     }
 
     public function follow(Request $request)

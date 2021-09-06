@@ -1,5 +1,5 @@
 <template>
-	<a type="button" @click="showModal">
+	<a type="button" @click="getFollowers({id:_GetUser.id}) && showModal()">
 		<strong>{{count}}</strong> Followers
 	</a>
 	<Modal v-model="isShow" :close="closeModal">
@@ -14,13 +14,13 @@
 					<div class="modal-body">
 						<div class="list">
 							<div class="list-content m-1">
-								<div class="user-items d-flex flex-column">
-									
-
-									<FollowerItem v-for="follower in followers" :key="follower.id" :follower="follower" class="my-1"/>
-
-
+								<div class="user-items d-flex flex-column" v-if="_User.id == _GetUser.id">
+									<MyFollowerItem v-for="follower in followers" :key="follower.id" :follower="follower" class="my-1"/>
 								</div>
+								<div class="user-items d-flex flex-column" v-else>
+									<FollowerItem v-for="follower in followers" :key="follower.id" :follower="follower" class="my-1"/>
+								</div>
+
 							</div>
 						</div>
 					</div>
@@ -31,11 +31,13 @@
 </template>
 
 <script>
-	import {mapActions} from 'vuex'
+	import {mapActions,mapGetters} from 'vuex'
 	import FollowerItem from '@/components/User/followerItem.vue'
+	import MyFollowerItem from '@/components/User/myFollowerItem.vue'
 	export default {
 		components:{
-			FollowerItem
+			FollowerItem,
+			MyFollowerItem
 		},
 		props:['followers','count'],
 		data(){
@@ -43,8 +45,11 @@
 				isShow:false,
 			}
 		},
+		computed:{
+			...mapGetters(['_GetUser','_User'])
+		},
 		methods:{
-			...mapActions(['removeFollow']),
+			...mapActions(['removeFollow','getFollowers']),
 			showModal(){
 				this.isShow = true
 			},

@@ -6,15 +6,26 @@ import router from '../../router'
 export default ({
 	state: {
 		getUser:[],
+		follower:[],
 		isLoading:false
 	},
 
 	getters:{
 		_GetUser : (state) => state.getUser,
+		_GetUserFollower : (state) => state.follower,
 		_GetUserLoading : (state) => state.isLoading,
 	},
 
 	actions:{
+		getFollowers(commit,form){
+			appAxios.get('/getfollowers?user='+form.id+'&count='+12)
+			.then(res=>{
+				commit.state.follower = res.data
+			})
+			.catch(()=>{
+				commit.state.follower = []
+			})
+		},
 		follow(commit,form){
 			appAxios.post('/follow',form)
 			.then(()=>{
@@ -44,6 +55,7 @@ export default ({
 					type:'success',
 					title:'Successfully removed.'
 				})
+				commit.getters._GetUser.followers_count--
 			})
 			.catch(err=>{
 				console.log(err)
@@ -55,9 +67,6 @@ export default ({
 			appAxios.get('/user/'+form)
 			.then(res=>{
 				commit.state.getUser = res.data
-				if (commit.state.getUser.followers.find(({ follower_id }) => follower_id === commit.getters._User.id.toString())) {
-					commit.state.getUser.isFollowing = true
-				}
 			})
 			.catch(()=>{
 				router.push({name:'404'});

@@ -68,6 +68,15 @@ class User extends Authenticatable
     }
 
     public function getIsfollowingAttribute(){
-        return false;
+        if (Auth::user()) {
+            $user = $this->followers()->where('follower_id',Auth::user()->id)->first();
+            if($user){
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 }
