@@ -19,7 +19,7 @@
 			return {
 			}
 		},
-		created(){
+		mounted(){
 			this.getProfileUser(this.$route.params.username);
 		},
 		computed:{

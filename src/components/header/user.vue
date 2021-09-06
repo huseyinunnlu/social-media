@@ -6,7 +6,7 @@
 		</a>
 		<ul class="dropdown-menu shadow user-opr" aria-labelledby="navbarDropdown">
 			<li>
-				<router-link class="dropdown-item" :to="{name:'MyProfile',params:{username:_User.username}}"><i class="far fa-user-circle"></i><span> Profile</span></router-link>
+				<router-link class="dropdown-item" :to="{name:'Profile',params:{username:_User.username}}"><i class="far fa-user-circle"></i><span> Profile</span></router-link>
 			</li>
 			<li><a class="dropdown-item" href="#"><i class="far fa-bookmark"></i> Saved</a></li>
 			<li><router-link class="dropdown-item" :to="{name:'AccountEdit'}"><i class="fas fa-cog"></i> Settings</router-link></li>
@@ -22,18 +22,18 @@
 			...mapGetters(['_User','_LogoutLoading'])
 		},
 		methods:{
-			...mapActions(['logout'])
+			...mapActions(['logout']),
 		}
 	}
 </script>
 <style>
-	.user-opr {
-		width: 150px;
-	}
-	.user-opr i{
-		font-size: 110%;
-		text-align: center;
-		padding-right: 9px;
-		width: 25px;
-	}
+.user-opr {
+	width: 150px;
+}
+.user-opr i{
+	font-size: 110%;
+	text-align: center;
+	padding-right: 9px;
+	width: 25px;
+}
 </style>

@@ -26,9 +26,9 @@ const routes = [
 
 /*Profile Routes*/
 {
-	path: '/myprofile',
-	name: 'MyProfile',
-	component: () => import( '../views/User/MyProfile.vue')
+	path: '/u/:username',
+	name: 'Profile',
+	component: () => import( '../views/User/Profile.vue')
 },
 {
 	path: '/account/edit',
@@ -45,44 +45,37 @@ const routes = [
 	name: 'VerifyEmail',
 	component: () => import( '../components/User/verifyemail.vue')
 },
-/*Profile*/
-{
-	path: '/u/:username',
-	name: 'Profile',
-	component: () => import( '../views/User/Profile.vue')
-},
-
-
-
 ]
 
 const router = createRouter({
 	history: createWebHistory(process.env.BASE_URL),
+	duplicateNavigationPolicy: 'reject',
 	routes
 })
 
 router.beforeEach((to, _, next) => {
 	const authRequiredRoutes = ['Index','MyProfile','AccountEdit','VerifyEmail','ChangePassword'];
-	const authNotRequiredRoutes  = ['Register','Welcome'];
+	//const authNotRequiredRoutes  = ['Register','Welcome'];
 	const emailActivationRoutes = ['VerifyEmail'];
 	const token = localStorage.getItem('token')
 	if(authRequiredRoutes.indexOf(to.name) > -1 && !token){
 		router.push({name:'Welcome'})
+	}else if(emailActivationRoutes.indexOf(to.name) > -1 && token && to.params.code.length != 55){	
+		router.push({name:'Index'})
 	}else{
 		next()
 	}
+	
+	
+});
+router.beforeEach((to,_,next)=>{
+	const authNotRequiredRoutes  = ['Register','Welcome'];
+	const token = localStorage.getItem('token')
+
 	if (authNotRequiredRoutes.indexOf(to.name) > -1 && token) {
 		router.push({name:'Index'})
 	}else{
 		next()
 	}
-	if (emailActivationRoutes.indexOf(to.name) > -1 && token) {
-		if(to.params.code.length == 55){
-			next()
-		}else{
-			router.push({name:'Index'})
-		}
-	}
 });
-
 export default router

@@ -12,7 +12,7 @@ class ProfileController extends Controller
 {
     public function get($username)
     {
-        $user = User::where('username',$username)->with('followers')->first();
+        $user = User::where('username',$username)->with('followers.user','following')->withCount('followers','following')->first();
 
         if($user) {
             return response()->json($user);
@@ -63,6 +63,10 @@ class ProfileController extends Controller
                 'error'=>'You cannot unfollow yourself',
             ],404);
         }
+    }
 
+    public function removeFollower(Request $request)
+    {
+        Follow::whereId($request->id)->first()->delete();
     }
 }

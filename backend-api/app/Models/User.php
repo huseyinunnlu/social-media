@@ -62,6 +62,10 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Follow'::class, 'follow_id');
     }
+    public function following()
+    {
+        return $this->hasMany('App\Models\Follow'::class, 'follower_id');
+    }
 
     public function getIsfollowingAttribute(){
         return false;

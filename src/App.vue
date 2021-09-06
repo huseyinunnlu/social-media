@@ -3,7 +3,7 @@
 	<notifications position="top right" class="mt-4 mx-4"/>
 	<div class="container">
 		<div class="row">
-			<router-view/>
+			<router-view :key="$route.fullPath"/>
 		</div>
 	</div>
 </template>

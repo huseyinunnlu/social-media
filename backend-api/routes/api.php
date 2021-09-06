@@ -6,7 +6,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\ProfileSettingsController;
 use App\Http\Controllers\User\ProfileController;
-
+use App\Models\User;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -19,7 +19,8 @@ use App\Http\Controllers\User\ProfileController;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+    $user = User::whereId(Auth::user()->id)->with('followers.user','following')->withCount('followers','following')->first();
+    return $user;
 });
 
 Route::post('/login', [LoginController::class, 'login']);
@@ -33,3 +34,4 @@ Route::post('/account/password/change', [ProfileSettingsController::class, 'upda
 Route::get('/user/{username}', [ProfileController::class, 'get']);
 Route::post('/follow', [ProfileController::class, 'follow'])->middleware('auth:api');
 Route::post('/unfollow', [ProfileController::class, 'unFollow'])->middleware('auth:api');
+Route::post('/removefollower', [ProfileController::class, 'removeFollower'])->middleware('auth:api');
