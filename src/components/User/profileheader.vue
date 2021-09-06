@@ -3,7 +3,6 @@
 		<div class="profile-image px-5">
 			<img :src="_GetUser.image" class="rounded-circle" style="width:150px; height: 150px;">
 		</div>
-		{{_GetUserFollower}}
 		<div class="profile-desc px-5 d-flex flex-column">
 			<div class="profile-desc-header d-flex align-items-center">
 				<span class="username">{{_GetUser.username}}</span>
@@ -14,7 +13,7 @@
 			<div class="profile-desc-follow d-flex justify-content-between my-3">
 				<span><strong>0</strong> Posts</span>
 				<Followers :count="_GetUser.followers_count" :followers="_GetUserFollower"/>
-				<span><strong>{{_GetUser.following_count}}</strong> Following</span>
+				<Follows :count="_GetUser.following_count" :follows="_GetUserFollow"/>
 			</div>
 			<div class="profile-desc-fullname">
 				<strong>
@@ -29,13 +28,15 @@
 </template>
 <script>
 	import Followers from '@/components/User/followers.vue'
+	import Follows from '@/components/User/follows.vue'
 	import { mapActions,mapGetters } from 'vuex'
 	export default {
 		components:{
-			Followers
+			Followers,
+			Follows,
 		},
 		computed:{
-			...mapGetters(['_User','_GetUser','_GetUserFollower'])
+			...mapGetters(['_User','_GetUser','_GetUserFollow','_GetUserFollower'])
 		},
 		methods:{
 			...mapActions(['follow','unFollow'])

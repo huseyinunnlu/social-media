@@ -7,12 +7,14 @@ export default ({
 	state: {
 		getUser:[],
 		follower:[],
+		follows:[],
 		isLoading:false
 	},
 
 	getters:{
 		_GetUser : (state) => state.getUser,
 		_GetUserFollower : (state) => state.follower,
+		_GetUserFollow : (state) => state.follows,
 		_GetUserLoading : (state) => state.isLoading,
 	},
 
@@ -24,6 +26,15 @@ export default ({
 			})
 			.catch(()=>{
 				commit.state.follower = []
+			})
+		},
+		getFollows(commit,form){
+			appAxios.get('/getfollows?user='+form.id+'&count='+12)
+			.then(res=>{
+				commit.state.follows = res.data
+			})
+			.catch(()=>{
+				commit.state.follows = []
 			})
 		},
 		follow(commit,form){
@@ -49,6 +60,18 @@ export default ({
 			})
 		},
 		removeFollow(commit,form){
+			appAxios.post('/unfollow',form)
+			.then(()=>{
+				if(commit.state.getUser.isFollowing == true){
+					commit.state.getUser.isFollowing = false
+				}
+				commit.state.getUser.following_count--
+			})
+			.catch(()=>{
+
+			})
+		},
+		removeFollower(commit,form){
 			appAxios.post('/removefollower', form)
 			.then(()=>{
 				notify({

@@ -19,7 +19,7 @@ use App\Models\User;
 */
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    $user = User::whereId(Auth::user()->id)->with('followers.user','following')->withCount('followers','following')->first();
+    $user = User::whereId(Auth::user()->id)->withCount('followers','following')->first();
     return $user;
 });
 
@@ -36,3 +36,4 @@ Route::post('/follow', [ProfileController::class, 'follow'])->middleware('auth:a
 Route::post('/unfollow', [ProfileController::class, 'unFollow'])->middleware('auth:api');
 Route::post('/removefollower', [ProfileController::class, 'removeFollower'])->middleware('auth:api');
 Route::get('/getfollowers', [ProfileController::class, 'getFollowers']);
+Route::get('/getfollows', [ProfileController::class, 'getFollows']);

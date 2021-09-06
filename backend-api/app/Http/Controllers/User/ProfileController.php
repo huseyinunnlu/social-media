@@ -25,7 +25,13 @@ class ProfileController extends Controller
 
     public function getfollowers(Request $request)
     {
-        $followers = Follow::where('follow_id',$request->user)->with('user')->limit($request->count)->get();
+        $followers = Follow::where('follow_id',$request->user)->with('FollowerUser')->limit($request->count)->get();
+        return response()->json($followers);
+    }
+
+    public function getfollows(Request $request)
+    {
+        $followers = Follow::where('follower_id',$request->user)->with('FollowUser')->limit($request->count)->get();
         return response()->json($followers);
     }
 
