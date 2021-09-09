@@ -63,7 +63,7 @@ export default ({
 					title:"Successfully logged out.",
 				})
 				localStorage.setItem('token','')
-				location.reload();
+				window.location.href = 'http://localhost:8080';
 			})
 			.catch(()=>{
 				notify({

@@ -8,6 +8,7 @@ export default ({
 		getUser:[],
 		follower:[],
 		follows:[],
+		posts:[],
 		isLoading:false
 	},
 
@@ -15,6 +16,7 @@ export default ({
 		_GetUser : (state) => state.getUser,
 		_GetUserFollower : (state) => state.follower,
 		_GetUserFollow : (state) => state.follows,
+		_GetUserPost : (state) => state.posts,
 		_GetUserLoading : (state) => state.isLoading,
 	},
 
@@ -37,6 +39,7 @@ export default ({
 				commit.state.follows = []
 			})
 		},
+		
 		follow(commit,form){
 			appAxios.post('/follow',form)
 			.then(()=>{

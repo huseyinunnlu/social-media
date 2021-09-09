@@ -67,6 +67,11 @@ class User extends Authenticatable
         return $this->hasMany('App\Models\Follow'::class, 'follower_id');
     }
 
+    public function post()
+    {
+        return $this->hasMany('App\Models\Post'::class, 'user_id');
+    }
+
     public function getIsfollowingAttribute(){
         if (Auth::user()) {
             $user = $this->followers()->where('follower_id',Auth::user()->id)->first();

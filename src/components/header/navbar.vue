@@ -10,7 +10,8 @@
 					
 				</ul>
 				
-				<ul class="navbar-nav mb-2 mb-lg-0">
+				<ul class="navbar-nav mb-2 mb-lg-0 align-items-center">
+					<router-link :to="{name:'Index'}" class="router-link mx-2" style="font-size: 23px;"><i class="fas fa-home"></i></router-link>
 					<User v-if="_isAuth"/>
 				</ul>
 			</div>
@@ -29,3 +30,15 @@
 		}
 	}
 </script>
+<style>
+.router-link {
+	color: #999999;
+	transition: all 0.3s;
+}
+.router-link:hover{
+	color: black;
+}
+.router-link-active{
+	color: black;
+}
+</style>

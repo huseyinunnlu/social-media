@@ -3,8 +3,6 @@
 		<ul class="settings-navbar-links d-flex flex-column">
 			<router-link class="router-link" :to="{name:'AccountEdit'}"><i class="fas fa-user-cog"></i> Edit Profile</router-link>
 			<router-link class="router-link" :to="{name:'ChangePassword'}"><i class="fas fa-lock"></i> Change Password</router-link>	
-			<router-link class="router-link" :to="{name:'AccountEdit'}">Edit Profile</router-link>	
-			<router-link class="router-link" :to="{name:'AccountEdit'}">Edit Profile</router-link>	
 		</ul>
 	</div>
 </template>

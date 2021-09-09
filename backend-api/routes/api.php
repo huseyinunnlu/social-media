@@ -6,6 +6,8 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\User\ProfileSettingsController;
 use App\Http\Controllers\User\ProfileController;
+use App\Http\Controllers\IndexController;
+use App\Http\Controllers\PostController;
 use App\Models\User;
 /*
 |--------------------------------------------------------------------------
@@ -37,3 +39,7 @@ Route::post('/unfollow', [ProfileController::class, 'unFollow'])->middleware('au
 Route::post('/removefollower', [ProfileController::class, 'removeFollower'])->middleware('auth:api');
 Route::get('/getfollowers', [ProfileController::class, 'getFollowers']);
 Route::get('/getfollows', [ProfileController::class, 'getFollows']);
+Route::get('/suggestedaccs', [IndexController::class, 'suggestedAccounts'])->middleware('auth:api');
+Route::post('/addpost', [PostController::class, 'addPost'])->middleware('auth:api');
+Route::get('/getposts', [IndexController::class, 'getPosts']);
+Route::get('/getuserposts', [ProfileController::class, 'getUserPosts']);

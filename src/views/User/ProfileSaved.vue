@@ -5,12 +5,7 @@
 		<ProfileHeader/>
 		<div v-if="_GetUser.acctype == 0 || _GetUser.isFollowing || _GetUser.id == _User.id">
 			<ProfileNavbar/>
-			<div v-if="_GetUser.post_count > 0">
-				<Posts />
-			</div>
-			<div v-else class="text-center mt-4">
-				<h3>No posts</h3>
-			</div>
+			<Saved /> 	
 		</div>
 		<div v-else class="text-center mt-4">
 			<h3>This account is private</h3>
@@ -21,20 +16,22 @@
 <script>
 	import ProfileHeader from '@/components/User/profileheader.vue' 
 	import ProfileNavbar from '@/components/User/profilenavbar.vue' 
-	import Posts from '@/components/User/posts.vue' 
+	import Saved from '@/components/User/saved.vue' 
 	import {mapGetters,mapActions} from 'vuex'
 	export default {
 		components:{
 			ProfileHeader,
 			ProfileNavbar,
-			Posts,
+			Saved,
 		},
 		data(){
 			return {
 			}
 		},
 		mounted(){
-			this.getProfileUser(this.$route.params.username);
+			if (this._GetUser.length == 0) {
+				this.getProfileUser(this.$route.params.username)
+			}
 		},
 		computed:{
 			...mapGetters(['_GetUserLoading','_User','_GetUser'])

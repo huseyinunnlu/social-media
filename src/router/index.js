@@ -9,7 +9,7 @@ const routes = [
 {
 	path: '/index',
 	name: 'Index',
-	component: () => import( '../views/Index.vue')
+	component: () => import( '../views/Index/Index.vue')
 },
 {
 	path: '/',
@@ -29,6 +29,11 @@ const routes = [
 	path: '/u/:username',
 	name: 'Profile',
 	component: () => import( '../views/User/Profile.vue')
+},
+{
+	path: '/u/:username/saved',
+	name: 'ProfileSaved',
+	component: () => import( '../views/User/ProfileSaved.vue')
 },
 {
 	path: '/account/edit',

@@ -7,12 +7,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Follow;
+use App\Models\Post;
 
 class ProfileController extends Controller
 {
     public function get($username)
     {
-        $user = User::where('username',$username)->withCount('followers','following')->first();
+        $user = User::where('username',$username)->withCount('post')->withCount('followers','following')->first();
 
         if($user) {
             return response()->json($user);
@@ -33,6 +34,12 @@ class ProfileController extends Controller
     {
         $followers = Follow::where('follower_id',$request->user)->with('FollowUser')->limit($request->count)->get();
         return response()->json($followers);
+    }
+
+    public function getUserPosts(Request $request)
+    {
+        $userPosts = Post::where('user_id',$request->user)->with('galleries','user')->withCount('galleries')->limit($request->count)->get();
+        return response()->json($userPosts);
     }
 
     public function follow(Request $request)

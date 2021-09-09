@@ -21,7 +21,8 @@ class ProfileSettingsController extends Controller
             'email'=>'required|email|unique:users,email,'.Auth::user()->id,
             'bio'=>'nullable|max:150',
             'phone'=>'nullable|unique:users,phone,'.Auth::user()->id,
-            'gender'=>'required'
+            'gender'=>'required',
+            'acctype'=>'required',
         ]);
         $isPhoneVerified = Auth()->user()->isPhoneVerified;
         $isEmailVerified = Auth()->user()->isEmailVerified;
@@ -47,6 +48,7 @@ class ProfileSettingsController extends Controller
                 'phone_verified_at'=>$request->phone_verified_at,
                 'isEmailVerified' => $isEmailVerified,
                 'isPhoneVerified' => $isPhoneVerified,
+                'acctype' => $request->acctype,
             ]);
         }
     }

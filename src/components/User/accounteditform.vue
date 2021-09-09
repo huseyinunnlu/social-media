@@ -70,6 +70,17 @@
 				</div>
 			</div>
 			<div class="form-group row">
+				<label class="col-sm-2">Account Type</label>
+				<div class="col-sm-8">
+					<select class="form-select form-select-sm" v-model="form.acctype">
+						<option :value="null">Select A Type</option>
+						<option :value="'0'">Public</option>
+						<option :value="'1'">Private</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="form-group row">
 				<label class="col-sm-2"></label>
 				<div class="col-sm-8">
 					<button type="submit" class="btn btn-success btn-sm">Update</button>
