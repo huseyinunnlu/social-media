@@ -5,8 +5,8 @@
 				Loading
 			</h3>
 		</div>
-		<div class="post-user d-flex flex-wrap justify-content-center" v-if="!isLoading">
-			<PostItem v-for="post in posts" :key="post.id" :post="post" class="m-2 border" style="width:22.5%; height: 250px;"/>
+		<div class="post-user d-flex flex-wrap flex-start justify-content-center" v-if="!isLoading">
+			<PostItem v-for="post in posts" :key="post.id" :post="post" class="m-2 border" style="width:300px; height: 300px;"/>
 		</div>
 	</div>
 </template>

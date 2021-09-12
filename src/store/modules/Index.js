@@ -5,12 +5,14 @@ import { appAxios } from "@/utils/appAxios";
 
 export default({
 	state:{
+		posts:[],
 		suggestedAccs:[],
 		isLoading:false,
 	},
 
 	getters:{
 		_SuggestedAccs : (state) => state.suggestedAccs,
+		_IndexPosts : (state) => state.posts,
 	},
 
 	actions:{
@@ -19,17 +21,15 @@ export default({
 			.then(res=>{
 				commit.state.suggestedAccs = res.data
 			})
-			.catch(err=>{
-				console.log(err)
+			.catch(()=>{
 			})
 		},
-		getPosts(){
+		getPosts(commit){
 			appAxios.get('/getposts')
 			.then(res=>{
-				console.log(res)
+				commit.state.posts = res.data
 			})
-			.catch(err=>{
-				console.log(err)
+			.catch(()=>{
 			})
 		}
 	},

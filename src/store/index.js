@@ -4,6 +4,7 @@ import Login from './modules/login';
 import EditProfile from './modules/editProfile';
 import Profile from './modules/profile';
 import Index from './modules/Index';
+import Post from './modules/post';
 const store = createStore({
 	modules:{
 		Register,
@@ -11,6 +12,7 @@ const store = createStore({
 		EditProfile,
 		Profile,
 		Index,
+		Post,
 	}
 });
 

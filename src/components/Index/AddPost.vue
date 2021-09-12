@@ -1,5 +1,5 @@
 <template>
-	<loader v-if="_AddPostLoading" object="#fff" color1="#ffffff" color2="#17fd3d" size="4" speed="5" bg="#343a40" objectbg="#999793" opacity="80" name="spinning"></loader>
+	<loader v-if="isLoading" object="#fff" color1="#ffffff" color2="#17fd3d" size="4" speed="5" bg="#343a40" objectbg="#999793" opacity="80" name="spinning"></loader>
 	<div class="post-add m-3">
 		<div class="post-add-content d-flex justify-content-between">
 			<h4>Posts</h4>
@@ -77,7 +77,7 @@
 	</div>
 </template>
 <script>
-	import {mapGetters,mapActions} from 'vuex'
+	import {mapActions} from 'vuex'
 	export default {
 		data(){
 			return {
@@ -94,7 +94,7 @@
 			}
 		},
 		computed:{
-			...mapGetters(['_AddPostLoading'])
+			
 		},
 		methods:{
 			...mapActions(['getPosts']),

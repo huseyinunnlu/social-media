@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Models\Follow;
 use App\Models\Post;
 use App\Models\PostGallery;
+use App\Models\PostLike;
+use App\Models\PostSave;
 
 class PostController extends Controller
 {
@@ -50,6 +52,100 @@ class PostController extends Controller
                     'file_url'=>$imageName,
                 ]);
             }
+        }
+    }
+
+    public function like(Request $request)
+    {
+        $request->validate([
+            'userId'=>'required',
+            'postId'=>'required',
+        ]);
+
+        $post = PostLike::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
+
+        if(!$post){
+            PostLike::create([
+                'user_id'=>$request->userId,
+                'post_id'=>$request->postId,
+            ]);
+            return response()->json([
+                'message'=>'ok'
+            ],200);
+        }else{
+            return response()->json([
+                'message'=>'You already liked'
+            ],404);
+        }
+
+        
+    }
+
+    public function unLike(Request $request)
+    {
+        $request->validate([
+            'userId'=>'required',
+            'postId'=>'required',
+        ]);
+        
+        $post = PostLike::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
+
+        if($post){
+            PostLike::where('user_id',$request->userId)->where('post_id',$request->postId)->first()->delete();
+            return response()->json([
+                'message'=>'ok',
+            ],200);
+        }else{
+            return response()->json([
+                'message'=>'Didnt unliked',
+            ],404);
+        }
+    }
+
+    public function save(Request $request)
+    {
+        $request->validate([
+            'userId'=>'required',
+            'postId'=>'required',
+        ]);
+
+        $post = PostSave::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
+
+        if(!$post){
+            PostSave::create([
+                'user_id'=>$request->userId,
+                'post_id'=>$request->postId,
+            ]);
+            return response()->json([
+                'message'=>'ok'
+            ],200);
+        }else{
+            return response()->json([
+                'message'=>'You already saved this post'
+            ],404);
+        }
+
+        
+    }
+
+    public function unSave(Request $request)
+    {
+        $request->validate([
+            'userId'=>'required',
+            'postId'=>'required',
+        ]);
+        
+        $post = PostSave::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
+
+        if($post){
+            PostSave::where('user_id',$request->userId)->where('post_id',$request->postId)->first()->delete();
+            return response()->json([
+                'message'=>'ok',
+            ],200);
+        }else{
+            return response()->json([
+                'message'=>'Didnt unsaved',
+            ],404);
         }
     }
     

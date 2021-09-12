@@ -5,13 +5,9 @@ import store from './store'
 import loader from "vue-ui-preloader";
 import Notifications from '@kyvg/vue3-notification'
 import { appAxios } from "@/utils/appAxios"
-import 'bootstrap/dist/css/bootstrap.min.css'
 import Navbar from './components/header/navbar.vue'
-import 'vue-universal-modal/dist/index.css'
-
 import VueUniversalModal from 'vue-universal-modal'
-
-
+import 'vue-universal-modal/dist/index.css'
 const app = createApp(App);
 
 app.component('Navbar',Navbar)

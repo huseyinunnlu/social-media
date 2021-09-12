@@ -45,6 +45,10 @@ export default ({
 			.then(()=>{
 				commit.state.getUser.isFollowing = true
 				commit.state.getUser.followers_count++
+				notify({
+					type:'success',
+					title:'Successfully followed.'
+				})
 			})
 			.catch(err=>{
 				console.log(err)
@@ -57,6 +61,10 @@ export default ({
 					commit.state.getUser.isFollowing = false
 				}
 				commit.state.getUser.followers_count--
+				notify({
+					type:'success',
+					title:'Successfully unfollowed.'
+				})
 			})
 			.catch(()=>{
 
@@ -69,6 +77,10 @@ export default ({
 					commit.state.getUser.isFollowing = false
 				}
 				commit.state.getUser.following_count--
+				notify({
+					type:'success',
+					title:'Successfully removed.'
+				})
 			})
 			.catch(()=>{
 

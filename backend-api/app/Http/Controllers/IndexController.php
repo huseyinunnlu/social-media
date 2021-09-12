@@ -19,7 +19,7 @@ class IndexController extends Controller
 
     public function getPosts()
     {
-        $posts = Post::with('user','galleries')->withCount('galleries')->get();
+        $posts = Post::with('user','galleries')->withCount('galleries','like')->get();
         return response()->json($posts);
     }  
 }
