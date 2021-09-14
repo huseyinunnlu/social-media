@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Follow;
 use App\Models\Post;
+use App\Models\PostSave;
 
 class ProfileController extends Controller
 {
@@ -40,6 +41,18 @@ class ProfileController extends Controller
     {
         $userPosts = Post::where('user_id',$request->user)->with('galleries','user')->withCount('galleries')->limit($request->count)->get();
         return response()->json($userPosts);
+    }
+
+    public function getUserSavedPosts(Request $request)
+    {
+        $savedId = [];
+        $savedIds = PostSave::where('user_id',$request->user)->orderBy('created_at','desc')->select('post_id','id')->limit($request->count)->get();
+        
+        foreach($savedIds as $saved){
+            array_push($savedId, $saved->post_id);
+        }
+        $userSavedPosts = Post::whereIn('id',$savedId)->with('galleries','user')->withCount('galleries')->limit($request->count)->get();
+        return response()->json($userSavedPosts);
     }
 
     public function follow(Request $request)

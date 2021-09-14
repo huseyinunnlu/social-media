@@ -5,7 +5,7 @@
 		<ProfileHeader/>
 		<div v-if="_GetUser.acctype == 0 || _GetUser.isFollowing || _GetUser.id == _User.id">
 			<ProfileNavbar/>
-			<Saved /> 	
+			<Saved v-if="_User.id == _GetUser.id"/> 	
 		</div>
 		<div v-else class="text-center mt-4">
 			<h3>This account is private</h3>

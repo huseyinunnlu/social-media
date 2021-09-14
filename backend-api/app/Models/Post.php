@@ -49,8 +49,8 @@ class Post extends Model
     }
     public function getIsSavedAttribute()
     {
-        if (Auth()->user()) {
-            $user = $this->saves()->where('user_id',Auth()->user()->id)->first();
+        if (Auth::user()) {
+            $user = $this->saves()->where('user_id',Auth::user()->id)->first();
             if ($user) {
                 return true;
             }else{

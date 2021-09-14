@@ -8,7 +8,9 @@
 			<li>
 				<router-link class="dropdown-item" :to="{name:'Profile',params:{username:_User.username}}"><i class="far fa-user-circle"></i><span> Profile</span></router-link>
 			</li>
-			<li><a class="dropdown-item" href="#"><i class="far fa-bookmark"></i> Saved</a></li>
+			<li>
+				<router-link class="dropdown-item" :to="{name:'ProfileSaved',params:{username:_User.username}}"><i class="far fa-bookmark"></i> Saved</router-link>
+			</li>
 			<li><router-link class="dropdown-item" :to="{name:'AccountEdit'}"><i class="fas fa-cog"></i> Settings</router-link></li>
 			<li><hr class="dropdown-divider"></li>
 			<li><a type="button" class="dropdown-item" @click="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
