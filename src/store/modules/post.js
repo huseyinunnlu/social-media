@@ -44,6 +44,21 @@ export default ({
 					title:'Successfully unsaved.'
 				})
 			})
+		},
+		addComment(_,form){
+			appAxios.post('/addpostcomment',form)
+			.then(()=>{
+				notify({
+					type:'success',
+					title:'Comment successfully added.'
+				})
+			})
+			.catch(()=>{
+				notify({
+					type:'error',
+					title:"Comment didn't added."
+				})
+			})
 		}
 	},
 

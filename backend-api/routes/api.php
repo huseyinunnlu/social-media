@@ -48,3 +48,4 @@ Route::post('/like', [PostController::class, 'like'])->middleware('auth:api');
 Route::post('/unlike', [PostController::class, 'unLike'])->middleware('auth:api');
 Route::post('/save', [PostController::class, 'save'])->middleware('auth:api');
 Route::post('/unsave', [PostController::class, 'unSave'])->middleware('auth:api');
+Route::post('/addpostcomment', [PostController::class, 'AddPostComment'])->middleware('auth:api');

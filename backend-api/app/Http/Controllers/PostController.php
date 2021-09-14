@@ -10,6 +10,7 @@ use App\Models\Post;
 use App\Models\PostGallery;
 use App\Models\PostLike;
 use App\Models\PostSave;
+use App\Models\PostComment;
 
 class PostController extends Controller
 {
@@ -147,6 +148,21 @@ class PostController extends Controller
                 'message'=>'Didnt unsaved',
             ],404);
         }
+    }
+
+    public function addPostComment(Request $request)
+    {
+        $request->validate([
+            'postId'=>'required',
+            'userId'=>'required',
+            'comment'=>'required|max:255',
+        ]);
+
+        PostComment::create([
+            'post_id'=>$request->postId,
+            'user_id'=>$request->userId,
+            'comment'=>$request->comment,
+        ]);
     }
     
 }

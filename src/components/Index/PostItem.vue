@@ -38,14 +38,20 @@
 					<router-link :to="{name:'Profile',params:{username:post.user.username}}" class="text-black text-decoration-none" style="font-weight: bold;">{{post.user.username}} </router-link> 
 					<p v-html="post.desc"></p>
 				</span>
+				<strong class="text-muted border-bottom pb-4 mb-4" style="font-size:15px;">View al 0 comments</strong>
+				<AddPostComment :postId="post.id"/>
 			</div>
 		</div>
 	</div>
 </template>
 <script>
+	import AddPostComment from '@/components/Index/AddPostComment.vue'
 	import {mapGetters,mapActions} from 'vuex'
 	export default {
 		props:['post'],
+		components:{
+			AddPostComment,
+		},
 		data(){
 			return {
 				isFollowing:false,
@@ -64,7 +70,7 @@
 			...mapGetters(['_User'])
 		},
 		methods:{
-			...mapActions(['follow','unFollow','likePost','unLikePost','savePost','unSavePost']),
+			...mapActions(['follow','unFollow','likePost','unLikePost','savePost','unSavePost','addComment']),
 		},
 	}
 
