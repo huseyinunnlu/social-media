@@ -66,21 +66,20 @@ class PostController extends Controller
 
         $post = PostLike::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
 
-        if(!$post){
-            PostLike::create([
-                'user_id'=>$request->userId,
-                'post_id'=>$request->postId,
-            ]);
-            return response()->json([
-                'message'=>'ok'
-            ],200);
-        }else{
+        if ($post) {
             return response()->json([
                 'message'=>'You already liked'
             ],404);
         }
 
-        
+        PostLike::create([
+            'user_id'=>$request->userId,
+            'post_id'=>$request->postId,
+        ]);
+
+        return response()->json([
+            'message'=>'ok'
+        ],200);
     }
 
     public function unLike(Request $request)
@@ -89,7 +88,7 @@ class PostController extends Controller
             'userId'=>'required',
             'postId'=>'required',
         ]);
-        
+
         $post = PostLike::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
 
         if($post){
@@ -127,7 +126,7 @@ class PostController extends Controller
             ],404);
         }
 
-        
+
     }
 
     public function unSave(Request $request)
@@ -136,7 +135,7 @@ class PostController extends Controller
             'userId'=>'required',
             'postId'=>'required',
         ]);
-        
+
         $post = PostSave::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
 
         if($post){
@@ -165,7 +164,7 @@ class PostController extends Controller
             'comment'=>$request->comment,
         ]);
     }
-    
+
     public function getPostArticle(Request $request)
     {
         $postArticle = Post::where('url',$request->url)->with('galleries','user')->withCount('like')->first();
