@@ -112,7 +112,13 @@ class PostController extends Controller
 
         $post = PostSave::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
 
-        if(!$post){
+        if($post){
+
+            return response()->json([
+                'message'=>'You already saved this post'
+            ],404);
+
+
             PostSave::create([
                 'user_id'=>$request->userId,
                 'post_id'=>$request->postId,
@@ -120,11 +126,6 @@ class PostController extends Controller
             return response()->json([
                 'message'=>'ok'
             ],200);
-        }else{
-            return response()->json([
-                'message'=>'You already saved this post'
-            ],404);
-        }
 
 
     }
