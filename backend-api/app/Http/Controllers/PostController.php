@@ -11,6 +11,7 @@ use App\Models\PostGallery;
 use App\Models\PostLike;
 use App\Models\PostSave;
 use App\Models\PostComment;
+use App\Models\PostCommentLike;
 
 class PostController extends Controller
 {
@@ -165,4 +166,110 @@ class PostController extends Controller
         ]);
     }
     
+    public function getPostArticle(Request $request)
+    {
+        $postArticle = Post::where('url',$request->url)->with('galleries','user')->withCount('like')->first();
+        if ($postArticle) {
+            return response()->json($postArticle);
+        }else{
+            return response()->json([
+                'message'=>'Post not found.',
+            ],404);
+        }
+    }
+
+    public function getPostComments(Request $request)
+    {
+        $comments = PostComment::where('post_id',$request->postId)->with('user')->withCount('like')->orderBy('created_at','desc')->limit($request->count)->get();
+        $lastId = PostComment::orderBy('id','desc')->select('id')->first();
+        if(count($comments) == 0){
+            $comments = [
+                ['lastCommentId'=>$lastId->id],
+            ];
+        }else{
+            $comments[0]->lastCommentId = $lastId->id;
+        }
+        return response()->json($comments);
+    }
+
+    public function likeComment(Request $request)
+    {
+        $request->validate([
+            'userId'=>'required',
+            'commentId'=>'required',
+            'type'=>'required',
+        ]);
+
+        $likeComment = PostCommentLike::where('user_id',$request->userId)->where('comment_id',$request->commentId)->where('type',$request->type)->first();
+        if ($likeComment) {
+            return response()->json([
+                'message'=>'You already liked this comment',
+            ],404);
+        }else{
+            PostCommentLike::create([
+                'user_id'=>$request->userId,
+                'comment_id'=>$request->commentId,
+                'type'=>$request->type,
+            ]);
+            return response()->json([
+                'message'=>'Successfully liked.',
+            ],200);
+        }
+    }
+    public function unLikeComment(Request $request)
+    {
+        $request->validate([
+            'userId'=>'required',
+            'commentId'=>'required',
+            'type'=>'required',
+        ]);
+
+        $likeComment = PostCommentLike::where('user_id',$request->userId)->where('comment_id',$request->commentId)->where('type',$request->type)->first();
+        if (!$likeComment) {
+            return response()->json([
+                'message'=>'You already didnt liked this comment.',
+            ],404);
+        }else{
+            PostCommentLike::where('user_id',$request->userId)->where('comment_id',$request->commentId)->where('type',$request->type)->first()->delete();
+            return response()->json([
+                'message'=>'Successfully unliked.',
+            ],200);
+        }
+    }
+
+    public function deleteComment(Request $request)
+    {
+        $request->validate([
+            'commentId'=>'required',
+        ]);
+
+        $comment = PostComment::whereId($request->commentId)->first();
+        if ($comment) {
+            PostComment::whereId($request->commentId)->first()->delete();
+            return response()->json([
+                'message'=>'Successfully deleted.',
+            ],200);
+        }else{
+            return response()->json([
+                'message'=>'Comment not found.',
+            ],404);
+        }
+    }
+
+    public function deletePost(Request $request)
+    {
+        $request->validate([
+            'postId'=>'required',
+        ]);
+        $post = Post::whereId($request->postId)->first()->delete();
+        if ($post == 1) {
+            return response()->json([
+                'message'=>'Post successfully deleted',
+            ],200);
+        }else{
+            return response()->json([
+                'message'=>"Post did't deleted",
+            ],404);
+        }
+    }
 }

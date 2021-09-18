@@ -49,3 +49,9 @@ Route::post('/unlike', [PostController::class, 'unLike'])->middleware('auth:api'
 Route::post('/save', [PostController::class, 'save'])->middleware('auth:api');
 Route::post('/unsave', [PostController::class, 'unSave'])->middleware('auth:api');
 Route::post('/addpostcomment', [PostController::class, 'AddPostComment'])->middleware('auth:api');
+Route::get('/getpostarticle', [PostController::class, 'getPostArticle'])->middleware('auth:api');
+Route::get('/getpostcomments', [PostController::class, 'getPostComments'])->middleware('auth:api');
+Route::post('/likecomment', [PostController::class, 'likeComment'])->middleware('auth:api');
+Route::post('/unlikecomment', [PostController::class, 'unLikeComment'])->middleware('auth:api');
+Route::post('/deletecomment', [PostController::class, 'deleteComment'])->middleware('auth:api');
+Route::post('/deletepost', [PostController::class, 'deletePost'])->middleware('auth:api');

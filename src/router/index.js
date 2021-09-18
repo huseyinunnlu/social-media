@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+//import store from '../store/index.js'
 
 const routes = [
 {
@@ -50,6 +51,18 @@ const routes = [
 	name: 'VerifyEmail',
 	component: () => import( '../components/User/verifyemail.vue')
 },
+
+/*Post Routes*/
+{
+	path: '/p/:url',
+	name: 'PostArticle',
+	component: () => import( '../views/Index/PostArticle.vue'),
+	beforeRouteEnter: () => {
+		console.log(router.currentRoute.value)
+       //store.dispatch('getPostArticle')
+    }
+},
+
 ]
 
 const router = createRouter({

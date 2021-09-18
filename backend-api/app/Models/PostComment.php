@@ -11,4 +11,29 @@ class PostComment extends Model
     protected $table = 'post_comments';
     protected $fillable = ['user_id','post_id','comment'];
     
+    public function user()
+    {
+        return $this->belongsTo('App\Models\User'::class, 'user_id');
+    }
+
+    public function like()
+    {
+        return $this->hasMany('App\Models\PostCommentLike'::class, 'comment_id');
+    }
+
+    protected $appends = ['isLiked'];
+
+    public function getIsLikedAttribute()
+    {
+        if (Auth()->user()) {
+            $isLiked = $this->like()->where('user_id',Auth()->user()->id)->first();
+            if ($isLiked) {
+                return true;
+            }else{
+                return false;
+            }
+        }else {
+            return false;
+        }
+    }
 }
