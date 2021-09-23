@@ -21,19 +21,10 @@
 		methods:{
 			...mapActions(['addComment']),
 			createComment(){
-				this.$store.state.Post.postComments[0].lastCommentId = this.$store.state.Post.postComments[0].lastCommentId + 1
-				this.addComment({userId:this._User.id,postId:this.postId,comment:this.comment})
-				this.$store.state.Post.postComments.unshift({
-					comment: this.comment,
-					created_at: 'Now',
-					id: this.$store.state.Post.postComments[0].lastCommentId,
-					like_count: 0,
-					post_id: this._PostArticle.id,
-					updated_at: "Nov",
-					user: this._User,
-					user_id: this._User.id,
-				})
-				this.comment = null
+				this.addComment({postId:this.postId,comment:this.comment,userId:this._User.id})
+				setTimeout(() => {
+					this.comment = null
+				}, 1000);
 			}
 		}
 	}

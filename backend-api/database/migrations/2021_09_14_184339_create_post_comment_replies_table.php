@@ -19,7 +19,7 @@ class CreatePostCommentRepliesTable extends Migration
             $table->UnsignedBigInteger('comment_id');
             $table->UnsignedBigInteger('user_id');
             $table->UnsignedBigInteger('reply_user_id');
-            $table->UnsignedBigInteger('reply');
+            $table->string('reply');
             $table->timestamps();
             $table->foreign('post_id')->references('id')->on('posts')->onDelete('cascade');
             $table->foreign('comment_id')->references('id')->on('post_comments')->onDelete('cascade');

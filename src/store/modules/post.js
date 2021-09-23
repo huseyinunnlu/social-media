@@ -55,13 +55,25 @@ export default ({
 				})
 			})
 		},
-		addComment(_,form){
+		addComment(commit,form){
 			appAxios.post('/addpostcomment',form)
-			.then(()=>{
+			.then(res=>{
 				notify({
 					type:'success',
 					title:'Comment successfully added.'
 				})
+				commit.state.postComments.unshift({
+					comment: form.comment,
+					created_at: 'Now',
+					id: res.data.id,
+					like_count: 0,
+					post_id: form.postId,
+					updated_at: "Now",
+					user: commit.getters._User,
+					user_id: form.userId,
+					reply:[],
+				})
+				
 			})
 			.catch(()=>{
 				notify({
@@ -150,11 +162,9 @@ export default ({
 					type:'success',
 					title:'Successfully deleted post.'
 				})
-				if (this.$route.name == 'PostArticle') {
-					router.push({
-						name:'Index',
-					})
-				}
+				router.push({
+					name:'Index',
+				})
 			})
 			.catch(()=>{
 				notify({
@@ -166,6 +176,35 @@ export default ({
 				commit.state.isLoading = false
 			})
 		},
+		addReply(commit,form){
+			appAxios.post('/addcommentreply', form)
+			.then(res=>{
+				commit.state.postComments.find(function(comment) {
+				if(comment.id == form.commentId) {
+					let index = commit.state.postComments.indexOf(comment)
+					commit.state.postComments[index].reply.push({
+						id:res.data.id,
+						user_id:form.userId,
+						comment_id:form.commentId,
+						post_id:form.postId,
+						reply_user_id:form.replyUserId,
+						reply:form.reply,
+						user:commit.getters._User,
+					})
+				}
+					notify({
+						type:'success',
+						title:"Reply sent successfully."
+					});
+				});	
+			})
+			.catch(()=>{
+				notify({
+					type:'error',
+					title:"Reply didn't sent."
+				});
+			})
+		}
 
 	},
 

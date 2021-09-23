@@ -12,6 +12,7 @@ use App\Models\PostLike;
 use App\Models\PostSave;
 use App\Models\PostComment;
 use App\Models\PostCommentLike;
+use App\Models\PostCommentReply;
 
 class PostController extends Controller
 {
@@ -37,7 +38,6 @@ class PostController extends Controller
             'isCommentable'=>$request->isCommentable,
             'isViewable'=>$request->isViewable,
         ]);
-
         $lastPost = Post::where('user_id',Auth::user()->id)->orderBy('id','desc')->select('id')->first();
         for($i=0; $i <= $request->imageCount; $i++){
             if ($request->image[$i]) {
@@ -113,22 +113,20 @@ class PostController extends Controller
         $post = PostSave::where('user_id',$request->userId)->where('post_id',$request->postId)->first();
 
         if($post){
-
             return response()->json([
                 'message'=>'You already saved this post'
             ],404);
-
-
-            PostSave::create([
-                'user_id'=>$request->userId,
-                'post_id'=>$request->postId,
-            ]);
-            return response()->json([
-                'message'=>'ok'
-            ],200);
-
+        }
+        PostSave::create([
+            'user_id'=>$request->userId,
+            'post_id'=>$request->postId,
+        ]);
+        return response()->json([
+            'message'=>'ok'
+        ],200);
 
     }
+
 
     public function unSave(Request $request)
     {
@@ -164,6 +162,14 @@ class PostController extends Controller
             'user_id'=>$request->userId,
             'comment'=>$request->comment,
         ]);
+
+        $last = PostComment::orderBy('id','desc')->select('id')->first();
+        if (!$last) {
+            $last->id = 0;
+        }
+        return response()->json([
+            'id'=> $last->id,
+        ]);
     }
 
     public function getPostArticle(Request $request)
@@ -171,24 +177,15 @@ class PostController extends Controller
         $postArticle = Post::where('url',$request->url)->with('galleries','user')->withCount('like')->first();
         if ($postArticle) {
             return response()->json($postArticle);
-        }else{
-            return response()->json([
-                'message'=>'Post not found.',
-            ],404);
         }
+        return response()->json([
+            'message'=>'Post not found.',
+        ],404);
     }
 
     public function getPostComments(Request $request)
     {
-        $comments = PostComment::where('post_id',$request->postId)->with('user')->withCount('like')->orderBy('created_at','desc')->limit($request->count)->get();
-        $lastId = PostComment::orderBy('id','desc')->select('id')->first();
-        if(count($comments) == 0){
-            $comments = [
-                ['lastCommentId'=>$lastId->id],
-            ];
-        }else{
-            $comments[0]->lastCommentId = $lastId->id;
-        }
+        $comments = PostComment::where('post_id',$request->postId)->with('user','reply.user')->withCount('like','reply')->orderBy('created_at','desc')->limit($request->count)->get();
         return response()->json($comments);
     }
 
@@ -271,5 +268,28 @@ class PostController extends Controller
                 'message'=>"Post did't deleted",
             ],404);
         }
+    }
+
+    public function addCommentReply(Request $request){
+
+        $request->validate([
+            'postId'=>'required',
+            'userId'=>'required',
+            'commentId'=>'required',
+            'replyUserId'=>'required',
+            'reply'=>'required|max:255',
+        ]);
+        PostCommentReply::create([
+            'post_id'=>$request->postId,
+            'user_id'=>$request->userId,
+            'comment_id'=>$request->commentId,
+            'reply_user_id'=>$request->replyUserId,
+            'reply'=>$request->reply,
+        ]);
+
+        $lastReply = PostCommentReply::orderBy('id','desc')->first();
+        return response()->json([
+            'id'=>$lastReply->id,
+        ],200);
     }
 }

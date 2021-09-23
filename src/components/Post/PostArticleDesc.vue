@@ -21,7 +21,9 @@
 							<span class="sr-only"></span>
 						</div>
 					</div>
-					<PostCommentItem class="my-3" v-for="comment in _PostComments" :key="comment.id" :comment="comment"/>
+					<div v-else-if="_PostArticle.isCommentable == 0">
+						<PostCommentItem class="my-3" v-for="comment in _PostComments" :key="comment.id" :comment="comment"/>
+					</div>
 				</div>
 			</div>
 			<div class="post-item-footer d-flex flex-column">

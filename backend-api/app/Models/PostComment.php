@@ -10,7 +10,7 @@ class PostComment extends Model
     use HasFactory;
     protected $table = 'post_comments';
     protected $fillable = ['user_id','post_id','comment'];
-    
+
     public function user()
     {
         return $this->belongsTo('App\Models\User'::class, 'user_id');
@@ -35,5 +35,10 @@ class PostComment extends Model
         }else {
             return false;
         }
+    }
+
+    public function reply()
+    {
+        return $this->hasMany('App\Models\PostCommentReply'::class, 'comment_id');
     }
 }
